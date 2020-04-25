@@ -47,8 +47,8 @@ def explicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
 
         # prepare for new iteration
         oldu = newu.copy()
-
+        
         uMat[m,:] = newu.copy()
-    
+        
     return uMat,xgrid
 
