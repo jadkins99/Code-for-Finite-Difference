@@ -1,4 +1,4 @@
-from explicit_fd import explicit_fd
+from implicit_fd import implicit_fd
 from call_payoff import call_payoff
 from put_payoff import  put_payoff
 from u_m_inf_call import u_m_inf_call
@@ -16,7 +16,7 @@ sigma = 0.2
 S_max = 16
 T = 0.5 # six months to expiry
 a = 0.25
-Nx = 2000
+Nx = 200
 k = r/(0.5*sigma**2) # page 136
 ''' change variables from  financial variables to dimensionless
  x = ln(S/E)
@@ -28,17 +28,17 @@ U = v*exp(-alpha*x-beta*tau) '''
 
 
 
-uMatrix,xgrid = explicit_fd(E,r,sigma,T,S_max,Nx,a,put_payoff,u_m_inf_put,u_p_inf_put)
+uMatrix,xgrid = implicit_fd(E,r,sigma,T,S_max,Nx,a,call_payoff,u_m_inf_call,u_p_inf_call)
 
 # transform variables into financial variables
 S = E*np.exp(xgrid)
 
 tau_max = 0.5*(sigma**2)*T
 dt = tau_max/Nx
-t = 0
+t = T
 
 tau = 0.5*(sigma**2)*(T-t)
-M = np.ceil(tau_max/dt)
+#M = np.ceil(tau_max/dt)
 m = int(np.floor(tau/dt))
 
 # page 136
@@ -51,10 +51,15 @@ V = (E**(0.5*(1+k)))*(S**(0.5*(1-k)))*(np.exp(0.125*((k+1)**2)*(sigma**2)*(T-t))
 
 
 #C = E*V
+if m == Nx:
+    m -=1
+
+print(m)
 plt.plot(S,V[m,:])
 plt.xlabel("S")
 plt.ylabel("V")
 plt.show()
+
 
 
 
