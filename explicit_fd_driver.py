@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 
 # Values chosen to duplicate figure 8.6 on page 143
 
-E = 10
+E = 100
 r = 0.05
 sigma = 0.2
-S_max = 16
+S_max = 300
 T = 0.5 # six months to expiry
 a = 0.25
 Nx = 2000
@@ -35,7 +35,7 @@ S = E*np.exp(xgrid)
 
 tau_max = 0.5*(sigma**2)*T
 dt = tau_max/Nx
-t = 0
+t = T
 
 tau = 0.5*(sigma**2)*(T-t)
 M = np.ceil(tau_max/dt)
