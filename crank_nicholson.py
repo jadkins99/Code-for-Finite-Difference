@@ -1,9 +1,11 @@
 import numpy as np
 import scipy.sparse as sp
 
-def implicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
+def crank_nicholson(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
 
     s_min = 0.00000001
+
+    a2 = a/2
 
     #x = log(S/E)
     xLeft = np.log(s_min/E)
@@ -34,16 +36,22 @@ def implicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
     newu = np.zeros((int(Nx)))
 
     b = np.zeros((int(Nx)))
-    MSize = int(Nx)
-    Mmat = (1+2*a)*np.eye(MSize,MSize,k=0) + (-a)*np.eye(MSize,MSize,k=1) + (-a)*np.eye(MSize,MSize,k=-1) 
+    CSize = int(Nx)
+    Cmat = (1+a)*np.eye(CSize,CSize,k=0) + ((-1/2)*a)*np.eye(CSize,CSize,k=1) + ((-1/2)*a)*np.eye(CSize,CSize,k=-1) 
 
     for i in range(1,int(M)):
         tau = i*dt
-        b = oldu.copy()
 
-        oldu[1] = u_m_inf(xgrid[0],tau,k)
-        oldu[-2] = u_m_inf(xgrid[-1],tau,k)
 
+        for j in range(1,Nx-1):
+            b[j] = (1-a)*oldu[j]+a2*(oldu[j+1]+oldu[j-1])
+
+        oldu[0] = u_m_inf(xgrid[0],tau,k)
+        oldu[-1] = u_m_inf(xgrid[-1],tau,k)
+
+        
+        oldu[0] = u_m_inf(xgrid[0],tau,k)
+        oldu[-1] = u_m_inf(xgrid[-1],tau,k)
         b[0] += a*oldu[0]
         b[-1] += a*oldu[-1]
         '''
@@ -51,9 +59,9 @@ def implicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
         b[-1] = u_m_inf(xgrid[-1],tau,k)
         bm = oldu.copy() + b
         '''
-        newu = np.linalg.solve(a = Mmat,b = b)
+        newu = np.linalg.solve(a = Cmat,b = b)
        # print(len(newu))
-        oldu = newu.copy()
+       # oldu = newu.copy()
         uMat[i,:] = newu.copy()
 
     return uMat,xgrid

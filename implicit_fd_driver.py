@@ -28,7 +28,7 @@ U = v*exp(-alpha*x-beta*tau) '''
 
 
 
-uMatrix,xgrid = implicit_fd(E,r,sigma,T,S_max,Nx,a,call_payoff,u_m_inf_call,u_p_inf_call)
+uMatrix,xgrid = implicit_fd(E,r,sigma,T,S_max,Nx,a,put_payoff,u_m_inf_put,u_p_inf_put)
 
 # transform variables into financial variables
 S = E*np.exp(xgrid)

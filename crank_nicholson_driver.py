@@ -1,4 +1,4 @@
-from explicit_fd import explicit_fd
+from crank_nicholson import crank_nicholson
 from call_payoff import call_payoff
 from put_payoff import  put_payoff
 from u_m_inf_call import u_m_inf_call
@@ -28,7 +28,7 @@ U = v*exp(-alpha*x-beta*tau) '''
 
 
 
-uMatrix,xgrid = explicit_fd(E,r,sigma,T,S_max,Nx,a,call_payoff,u_m_inf_call,u_p_inf_call)
+uMatrix,xgrid = crank_nicholson(E,r,sigma,T,S_max,Nx,a,put_payoff,u_m_inf_put,u_p_inf_put)
 
 # transform variables into financial variables
 S = E*np.exp(xgrid)
