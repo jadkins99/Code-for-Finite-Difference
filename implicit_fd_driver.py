@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 E = 100
 r = 0.05
 sigma = 0.2
-S_max = 160
+S_max = 220
 T = 0.5 # six months to expiry
 a = 0.25
 Nx = 200
@@ -28,14 +28,14 @@ U = v*exp(-alpha*x-beta*tau) '''
 
 
 
-uMatrix,xgrid = implicit_fd(E,r,sigma,T,S_max,Nx,a,put_payoff,u_m_inf_put,u_p_inf_put)
+uMatrix,xgrid = implicit_fd(E,r,sigma,T,S_max,Nx,a,call_payoff,u_m_inf_call,u_p_inf_call)
 
 # transform variables into financial variables
 S = E*np.exp(xgrid)
 
 tau_max = 0.5*(sigma**2)*T
 dt = tau_max/Nx
-t = T
+t = 0
 
 tau = 0.5*(sigma**2)*(T-t)
 #M = np.ceil(tau_max/dt)

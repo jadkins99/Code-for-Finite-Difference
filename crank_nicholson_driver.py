@@ -13,10 +13,10 @@ import matplotlib.pyplot as plt
 E = 100
 r = 0.05
 sigma = 0.2
-S_max = 300
+S_max = 200
 T = 0.5 # six months to expiry
 a = 0.25
-Nx = 2000
+Nx = 200
 k = r/(0.5*sigma**2) # page 136
 ''' change variables from  financial variables to dimensionless
  x = ln(S/E)
@@ -28,7 +28,7 @@ U = v*exp(-alpha*x-beta*tau) '''
 
 
 
-uMatrix,xgrid = crank_nicholson(E,r,sigma,T,S_max,Nx,a,put_payoff,u_m_inf_put,u_p_inf_put)
+uMatrix,xgrid = crank_nicholson(E,r,sigma,T,S_max,Nx,a,call_payoff,u_m_inf_call,u_p_inf_call)
 
 # transform variables into financial variables
 S = E*np.exp(xgrid)
@@ -49,9 +49,12 @@ m = int(np.floor(tau/dt))
 
 V = (E**(0.5*(1+k)))*(S**(0.5*(1-k)))*(np.exp(0.125*((k+1)**2)*(sigma**2)*(T-t)))*uMatrix
 
+if m == Nx:
+    m -=1
+
 
 #C = E*V
-plt.plot(S,V[m,:])
+plt.plot(S,V[0,:])
 plt.xlabel("S")
 plt.ylabel("V")
 plt.show()

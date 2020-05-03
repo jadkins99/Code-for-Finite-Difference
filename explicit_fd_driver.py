@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 
 # Values chosen to duplicate figure 8.6 on page 143
 
-E = 100
+E = 10
 r = 0.05
 sigma = 0.2
-S_max = 300
+S_max = 16
 T = 0.5 # six months to expiry
 a = 0.25
 Nx = 2000
@@ -28,7 +28,7 @@ U = v*exp(-alpha*x-beta*tau) '''
 
 
 
-uMatrix,xgrid = explicit_fd(E,r,sigma,T,S_max,Nx,a,call_payoff,u_m_inf_call,u_p_inf_call)
+uMatrix,xgrid = explicit_fd(E,r,sigma,T,S_max,Nx,a,put_payoff,u_m_inf_put,u_p_inf_put)
 
 # transform variables into financial variables
 S = E*np.exp(xgrid)
@@ -48,7 +48,8 @@ m = int(np.floor(tau/dt))
 #V = E*np.exp(-1*0.5*(k-1)*xgrid - 0.25*((k+1)**2)*tau)*uMatrix
 
 V = (E**(0.5*(1+k)))*(S**(0.5*(1-k)))*(np.exp(0.125*((k+1)**2)*(sigma**2)*(T-t)))*uMatrix
-
+if m == Nx:
+    m -=1
 
 #C = E*V
 plt.plot(S,V[m,:])
