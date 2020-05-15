@@ -35,7 +35,7 @@ def implicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
 
     for i in range(1,int(M)):
         tau = i*dt
-        #b = oldu.copy()
+        
         b[0:] = oldu[0:].copy()
         oldu[0] = u_m_inf(xgrid[0],tau,k)
         oldu[-1] = u_m_inf(xgrid[-1],tau,k)
