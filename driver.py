@@ -12,17 +12,17 @@ import matplotlib.pyplot as plt
 
 # Values chosen to duplicate figure 8.6 on page 143
 
-E = 100
+E = 10
 r = 0.05
 sigma = 0.2
-S_max = 170
+S_max = 16
 T = 0.5 # six months to expiry
 Nx = 100
 M = 10
 k = r/(0.5*sigma**2) # page 136
 
 
-uMatrix,xgrid = crank_nicholson(E,r,sigma,T,S_max,Nx,M,put_payoff,u_m_inf_put,u_p_inf_put)
+uMatrix,xgrid = crank_nicholson(E,r,sigma,T,S_max,Nx,M,call_payoff,u_m_inf_call,u_p_inf_call)
 #uMatrix,xgrid = implicit_fd(E,r,sigma,T,S_max,Nx,M,call_payoff,u_m_inf_call,u_p_inf_call)
 #uMatrix,xgrid = explicit_fd(E,r,sigma,T,S_max,Nx,M,call_payoff,u_m_inf_call,u_p_inf_call)
 # transform variables into financial variables
