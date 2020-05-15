@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def explicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
+def explicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
 
     s_min = 0.00000001
 
@@ -13,15 +13,14 @@ def explicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
     tau_max = 0.5*(sigma**2)*T
 
     dx = (xRight-xLeft)/Nx
-    dt = a*dx**2 # page 140
-
+    dt = tau_max/M
+    a = dt/(dx**2) # page 140
+    print("a = ",a)
     xgrid = np.linspace(xLeft,xRight,Nx)
 
-    dx = (xRight-xLeft)/Nx
-    dt = tau_max/Nx
-    a = dt/(dx**2)
+    
     k = r/(0.5*sigma**2) # page 136
-    M = np.ceil(tau_max/dt) # page 141  
+    
   
     # initial conditions
     tau = 0.0
@@ -42,9 +41,8 @@ def explicit_fd(E,r,sigma,T,s_max,Nx,a,pay_off,u_m_inf,u_p_inf):
         newu[-1] = u_p_inf(xgrid[-1],tau,k)
 
         # update newu
-        for n in range(1,len(newu)-1):
-            newu[n] = oldu[n] + a*(oldu[n-1] - 2*oldu[n] + oldu[n+1])
 
+        newu[1:-1] = oldu[1:-1]+ a*(oldu[0:-2]+oldu[2:])
         # prepare for new iteration
         oldu = newu.copy()
         
