@@ -12,6 +12,7 @@ def implicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
     tau_max = 0.5*(sigma**2)*T
 
     dx = (xRight-xLeft)/Nx
+   
     dt = tau_max/M
     a = dt/(dx**2) # page 140
     print("a = ",a)
@@ -32,7 +33,6 @@ def implicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
     b = np.zeros((int(Nx)))
     MSize = int(Nx)
     Mmat = (1+2*a)*np.eye(MSize,MSize,k=0) + (-a)*np.eye(MSize,MSize,k=1) + (-a)*np.eye(MSize,MSize,k=-1) 
-
     for i in range(1,int(M)):
         tau = i*dt
         
@@ -44,7 +44,7 @@ def implicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
         b[-1] += a*oldu[-1]
        
         newu = np.linalg.solve(a = Mmat,b = b)
-  
+        
         oldu = newu.copy()
         uMat[i,:] = newu.copy()
 
