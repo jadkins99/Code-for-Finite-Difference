@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def explicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
 
     s_min = 0.00000001
@@ -17,7 +16,7 @@ def explicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
     a = dt/(dx**2) # page 140
     print("a = ",a)
     xgrid = np.linspace(xLeft,xRight,Nx)
-    S = E*np.exp(xgrid)
+    
     
     k = r/(0.5*sigma**2) # page 136
     
@@ -26,9 +25,6 @@ def explicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
     tau = 0.0
     oldu = pay_off(xgrid,k)
 
-   
-    #uMat = np.zeros((int(M),int(Nx)))
-    #uMat[0,:] = oldu.copy()
    
     newu = np.zeros((int(Nx)))
     values = np.zeros((int(Nx)))
@@ -42,7 +38,7 @@ def explicit_fd(E,r,sigma,T,s_max,Nx,M,pay_off,u_m_inf,u_p_inf):
 
         # update newu
 
-        newu[1:-1] = oldu[1:-1] + a*(oldu[0:-2]+oldu[2:])
+        newu[1:-1] = oldu[1:-1] + a*(oldu[0:-2] - 2*oldu[1:-1] + oldu[2:])
         # prepare for new iteration
         oldu = newu.copy()
 
